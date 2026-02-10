@@ -1,0 +1,336 @@
+/* ===========================
+   style.css — Ultra Dashboard
+   Matches index.html + app.js
+   =========================== */
+
+/* ---------- Root / Variables ---------- */
+:root{
+  --bg-dark-1: #0f1724; /* slate-900 like */
+  --glass-bg: rgba(255,255,255,0.08);
+  --glass-border: rgba(255,255,255,0.12);
+  --muted: rgba(255,255,255,0.65);
+  --soft-white: rgba(255,255,255,0.95);
+  --purple-600: #a855f7;
+  --purple-400: #c084fc;
+  --pink-400: #fb7185;
+  --emerald-500: #10b981;
+  --teal-400: #2dd4bf;
+  --blue-400: #60a5fa;
+  --cyan-400: #22d3ee;
+  --orange-400: #fb923c;
+  --red-400: #fb7185;
+  --glass-shadow: 0 25px 50px -12px rgba(0,0,0,0.35);
+  --glass-radius-lg: 1.25rem;  /* ~rounded-3xl */
+  --glass-radius-xl: 1.5rem;   /* ~rounded-4xl */
+  --max-width: 1200px;
+  --ui-gap: 1.25rem;
+  --font-sans: "Google Sans", -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+html,body { height:100%; width:100%; margin:0; padding:0; }
+body{
+  font-family: var(--font-sans);
+  background: linear-gradient(135deg,#0b1020 0%, #2a1738 60%, #0b1020 100%);
+  color: #fff;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow:hidden;
+}
+
+/* ---------- Full-screen anime background & canvas ---------- */
+#anime-bg{
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.40;
+  pointer-events: none;
+  transition: background-image 0.8s ease, opacity 0.6s ease;
+  will-change: background-image, opacity;
+}
+
+/* particle canvas (app.js uses #particles) */
+#particles{
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* ---------- Loading overlay ---------- */
+#loading{
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: linear-gradient(90deg, rgba(5,8,12,0.98) 0%, rgba(37,11,56,0.98) 50%, rgba(10,6,12,0.98) 100%);
+  text-align:center;
+}
+
+/* loading icon container */
+#loading .w-24{
+  width:6rem;
+  height:6rem;
+  border-radius:1rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: linear-gradient(90deg, #a855f7, #fb7185);
+  box-shadow: 0 10px 30px rgba(168,85,247,0.15), inset 0 -4px 12px rgba(0,0,0,0.25);
+}
+
+/* progress bar track */
+#loading .w-32.h-2 {
+  width:8rem;
+  height:0.5rem;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  overflow:hidden;
+  margin: 0.75rem auto 0;
+}
+.progress-bar{
+  height:100%;
+  width:0%;
+  background: linear-gradient(90deg,#a855f7,#fb7185);
+  border-radius: 999px;
+  transition: width 0.6s cubic-bezier(.22,.9,.3,1);
+  will-change: width;
+}
+
+/* ---------- Glass Nav ---------- */
+.glass-nav{
+  position: fixed;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  width: min(92%, calc(var(--max-width) + 6rem));
+  max-width: var(--max-width);
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--glass-border);
+  border-radius: calc(var(--glass-radius-lg) + 0.25rem);
+  padding: 0.9rem 2rem;
+  box-shadow: var(--glass-shadow);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+/* nav inner parts */
+.glass-nav .w-16{ width:4rem; height:4rem; border-radius: 1rem; display:flex; align-items:center; justify-content:center; }
+.glass-nav h1{ font-size:1.6rem; line-height:1; margin:0; font-weight:800; letter-spacing:-0.01em; }
+.glass-nav p{ margin:0; font-size:0.95rem; color: rgba(255,255,255,0.65); }
+
+/* nav icon button */
+.status-indicator{ width:0.75rem; height:0.75rem; border-radius:999px; background:#34d399; box-shadow:0 0 8px rgba(16,185,129,0.6); }
+
+/* ---------- Main wrapper (keeps content above bg & canvas) ---------- */
+main{
+  position: relative;
+  z-index: 20;
+  max-width: calc(var(--max-width) + 2rem);
+  margin: 4.5rem auto 3rem;
+  padding: 0 1.5rem;
+}
+
+/* ---------- Glass Panel / Cards (shared) ---------- */
+.glass-panel,
+.stat-card,
+.glass-nav{
+  background: var(--glass-bg);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* stat-card specifics */
+.stat-card{
+  padding: 2.5rem;
+  border-radius: var(--glass-radius-xl);
+  position: relative;
+  overflow: hidden;
+  transition: transform .45s cubic-bezier(.2,.9,.3,1), box-shadow .3s ease;
+}
+.stat-card:hover{
+  transform: translateY(-12px) scale(1.02);
+}
+
+/* small overlay used in stat cards (from index) */
+.stat-card .absolute.inset-0 {
+  position:absolute;
+  left:0;right:0;top:0;bottom:0;
+  pointer-events:none;
+}
+
+/* Title & numbers */
+.stat-card p { margin:0; }
+.stat-card .meta { color: rgba(255,255,255,0.78); font-weight:500; margin-bottom:.5rem; }
+.stat-card .big-number { font-weight:900; font-size:2.6rem; line-height:1; }
+
+/* colored gradient text helpers (used in inline markup too) */
+.gradient-purple { background: linear-gradient(90deg, #c084fc, #a855f7); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.gradient-emerald { background: linear-gradient(90deg,#34d399,#2dd4bf); -webkit-background-clip:text; color:transparent; }
+.gradient-blue { background: linear-gradient(90deg,#60a5fa,#22d3ee); -webkit-background-clip:text; color:transparent; }
+.gradient-orange { background: linear-gradient(90deg,#fb923c,#fb7185); -webkit-background-clip:text; color:transparent; }
+
+/* ---------- Chart container ---------- */
+canvas { display:block; max-width:100%; }
+#reactionsChart { height:18rem !important; }
+
+/* ---------- Chat controls / chat-control ---------- */
+.chat-control{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:1.25rem;
+  border-radius: 1.25rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: background .25s ease, transform .2s ease;
+}
+.chat-control:hover{ background: rgba(255,255,255,0.06); transform: translateY(-4px) }
+
+/* avatar pill */
+.chat-control .w-14{ width:3.5rem; height:3.5rem; border-radius:.75rem; display:flex; align-items:center; justify-content:center; font-weight:700; }
+
+/* control button in each chat entry */
+.chat-control button{
+  border: none;
+  padding: 0.55rem 1.1rem;
+  border-radius: 0.75rem;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.chat-control button:active{ transform: translateY(1px); }
+
+/* ---------- Top Emojis grid / emoji items ---------- */
+#topEmojis { display:grid; gap:1rem; grid-template-columns: repeat(4,1fr); }
+.emoji-item{
+  padding:1.5rem;
+  border-radius: 1.5rem;
+  position:relative;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+  transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+  text-align:center;
+}
+.emoji-item:hover{ transform: translateY(-6px) scale(1.06); background: rgba(255,255,255,0.06); }
+
+/* large emoji symbol and count */
+.emoji-item .text-5xl{ font-size:2.25rem; display:block; margin-bottom:.6rem; }
+.emoji-item .count { font-size:1.25rem; font-weight:900; color:var(--soft-white); text-shadow:0 2px 8px rgba(0,0,0,0.5); }
+
+/* hover gradient glow behind each emoji */
+.emoji-item .glow{
+  position:absolute; inset:-8px; border-radius:1.5rem; z-index:-1; opacity:0; transition:opacity .2s ease;
+}
+.emoji-item:hover .glow{ opacity:1; filter: blur(14px); }
+
+/* ---------- Recent Activity / activity-item ---------- */
+.activity-item{
+  display:flex;
+  gap:1rem;
+  align-items:center;
+  padding: 0.85rem;
+  border-radius: 1rem;
+  background: rgba(255,255,255,0.03);
+  border-left: 4px solid rgba(52,211,153,0.25);
+}
+.activity-item:hover{ background: rgba(255,255,255,0.05); }
+
+/* icon box in activity item */
+.activity-item .w-10{ width:2.5rem; height:2.5rem; border-radius:.75rem; display:flex; align-items:center; justify-content:center; }
+
+/* ---------- Custom Scrollbar ---------- */
+.custom-scrollbar::-webkit-scrollbar { width: 8px; height:8px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius:8px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius:8px; border: 2px solid transparent; background-clip: padding-box; }
+
+/* ---------- Material icons tweaks (size & alignment) ---------- */
+.material-icons-outlined,
+.material-icons-round { font-size: 1.05rem; vertical-align: middle; }
+
+/* ---------- Utilities used by JS animations ---------- */
+.animate-spin-slow{ animation: spin-slow 3s linear infinite; }
+.animate-pulse-soft{ animation: pulse 3s ease-in-out infinite; }
+
+/* small bounce used on some group-hover */
+.group-hover\:animate-bounce:hover { animation: float 3s ease-in-out infinite; }
+
+/* ---------- Buttons used in nav/status ---------- */
+.header-button{
+  width:3rem; height:3rem; border-radius:.6rem; display:flex; align-items:center; justify-content:center; cursor:pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+}
+
+/* ---------- Responsive tweaks ---------- */
+@media (min-width:1100px){
+  #topEmojis { grid-template-columns: repeat(8, 1fr); }
+}
+@media (min-width:768px){
+  main { padding: 0 2rem; }
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes spin-slow{
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes pulse{
+  0%,100% { opacity:1; transform: translateY(0); }
+  50% { opacity:0.7; transform: translateY(-2px); }
+}
+@keyframes float{
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes progress {
+  0%{ width: 0%; }
+  100%{ width: 78%; } /* default finish width (JS may override) */
+}
+
+/* ---------- Minor polish & fallbacks ---------- */
+/* ensure panels have good contrast for small screens */
+.glass-panel, .stat-card { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+
+/* small helper classes for text */
+.text-muted { color: rgba(255,255,255,0.68); font-weight:500; }
+.text-sm { font-size: .875rem; }
+
+/* ---------- Extra selectors used from app.js dynamic HTML ---------- */
+/* chat-control states (enabled/disabled) */
+.chat-control .enabled-pill{ background: linear-gradient(90deg,#10b981,#14b8a6); color:#fff; }
+.chat-control .disabled-pill{ background: linear-gradient(90deg,#4b5563,#111827); color: rgba(255,255,255,0.65); }
+
+/* buttons variants used in app.js templates */
+.btn-red {
+  background: linear-gradient(90deg,#ef4444,#fb7185);
+  color:#fff; font-weight:800;
+  box-shadow: 0 10px 25px rgba(251,113,133,0.12);
+}
+.btn-green {
+  background: linear-gradient(90deg,#10b981,#06b6d4);
+  color:#fff; font-weight:800;
+  box-shadow: 0 10px 25px rgba(16,185,129,0.12);
+}
+
+/* small transition consistency */
+* { transition: background-color .18s ease, color .18s ease, transform .18s ease; }
+
+/* keep the DOM focus outlines friendly */
+:focus { outline: 2px solid rgba(168,85,247,0.28); outline-offset: 2px; border-radius: 6px; }
+
+/* end of style.css */

@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LastPerson07 Ultra Dashboard | The Updated Guys</title>
+
+    <!-- Material 3 + Modern Stack -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined|Material+Icons+Round"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@materializecss/materialize@1.0.0/dist/css/materialize.min.css"
+    />
+  </head>
+  <body
+    class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen font-sans text-white overflow-hidden"
+  >
+    <!-- Dynamic Anime Background -->
+    <div id="anime-bg" class="fixed inset-0 z-0 object-cover opacity-40"></div>
+    <canvas
+      id="particles"
+      class="fixed inset-0 z-10 pointer-events-none"
+    ></canvas>
+
+    <!-- Loading Screen -->
+    <div
+      id="loading"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-r from-slate-900 to-purple-900"
+    >
+      <div class="text-center">
+        <div
+          class="w-24 h-24 mx-auto mb-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-3xl flex items-center justify-center animate-spin-slow"
+        >
+          <i class="material-icons-outlined text-4xl text-white">smart_toy</i>
+        </div>
+        <h1
+          class="text-4xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent mb-4 animate-pulse"
+        >
+          LastPerson07 Ultra
+        </h1>
+        <div class="w-32 h-2 bg-white/20 rounded-full overflow-hidden">
+          <div
+            class="w-0 h-full bg-gradient-to-r from-purple-400 to-pink-400 rounded-full progress-bar"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Glassmorphism Navigation -->
+    <nav
+      class="glass-nav fixed top-6 left-1/2 transform -translate-x-1/2 z-40 w-11/12 max-w-6xl backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl px-8 py-6 shadow-2xl"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-6">
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 rounded-3xl flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300"
+          >
+            <i class="material-icons-round text-3xl text-white drop-shadow-lg"
+              >auto_awesome</i
+            >
+          </div>
+          <div>
+            <h1
+              class="text-3xl font-black bg-gradient-to-r from-white via-purple-100 to-pink-100 bg-clip-text text-transparent drop-shadow-lg"
+            >
+              LastPerson07
+            </h1>
+            <p class="text-purple-200 font-medium">Ultra Reaction Dashboard</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div
+            class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center cursor-pointer hover:scale-110 transition-all"
+          >
+            <i
+              class="material-icons-outlined text-white text-lg"
+              id="refresh-btn"
+              >refresh</i
+            >
+          </div>
+          <div
+            class="status-indicator w-3 h-3 bg-emerald-400 rounded-full animate-ping"
+          ></div>
+          <div
+            class="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center animate-pulse cursor-pointer"
+          >
+            <i class="material-icons-outlined text-white text-sm"
+              >account_circle</i
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-32 pb-24 px-8 max-w-7xl mx-auto">
+      <!-- Ultra Stats Grid -->
+      <section
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16"
+      >
+        <div
+          class="stat-card p-10 backdrop-blur-xl bg-white/10 border border-white/20 rounded-4xl hover:scale-[1.03] transition-all duration-500 cursor-pointer group relative overflow-hidden"
+          data-metric="reactions"
+        >
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity"
+          ></div>
+          <div class="relative z-10">
+            <div class="flex items-center justify-between mb-6">
+              <div
+                class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-3xl flex items-center justify-center shadow-2xl group-hover:animate-bounce transition-all"
+              >
+                <i class="material-icons-round text-white text-2xl"
+                  >emoji_emotions</i
+                >
+              </div>
+            </div>
+            <p
+              class="text-gray-300 font-medium text-lg mb-4 opacity-90 group-hover:text-purple-100 transition-colors"
+            >
+              Total Reactions
+            </p>
+            <p
+              class="text-5xl font-black bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+              data-target="total_reactions"
+            >
+              0
+            </p>
+            <p
+              class="text-sm text-purple-300 mt-2 font-mono"
+              data-rate="reactions"
+            >
+              0/sec
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="stat-card p-10 backdrop-blur-xl bg-white/10 border border-white/20 rounded-4xl hover:scale-[1.03] transition-all duration-500 cursor-pointer group relative overflow-hidden"
+          data-metric="chats"
+        >
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 opacity-0 group-hover:opacity-100 transition-opacity"
+          ></div>
+          <div class="relative z-10">
+            <div class="flex items-center justify-between mb-6">
+              <div
+                class="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-3xl flex items-center justify-center shadow-2xl group-hover:rotate-360 transition-all duration-1000"
+              >
+                <i class="material-icons-round text-white text-2xl">groups</i>
+              </div>
+            </div>
+            <p
+              class="text-gray-300 font-medium text-lg mb-4 opacity-90 group-hover:text-emerald-100 transition-colors"
+            >
+              Active Chats
+            </p>
+            <p
+              class="text-5xl font-black bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent"
+              data-target="active_chats"
+            >
+              0
+            </p>
+            <p
+              class="text-sm text-emerald-300 mt-2 font-mono"
+              data-rate="chats"
+            >
+              +0 today
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="stat-card p-10 backdrop-blur-xl bg-white/10 border border-white/20 rounded-4xl hover:scale-[1.03] transition-all duration-500 cursor-pointer group relative overflow-hidden"
+          data-metric="uptime"
+        >
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity"
+          ></div>
+          <div class="relative z-10">
+            <div class="flex items-center justify-between mb-6">
+              <div
+                class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-3xl flex items-center justify-center shadow-2xl group-hover:pulse"
+              >
+                <i class="material-icons-round text-white text-2xl"
+                  >signal_cellular_alt</i
+                >
+              </div>
+            </div>
+            <p
+              class="text-gray-300 font-medium text-lg mb-4 opacity-90 group-hover:text-blue-100 transition-colors"
+            >
+              Uptime
+            </p>
+            <p
+              class="text-5xl font-black bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
+              data-target="uptime"
+            >
+              99.9%
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="stat-card p-10 backdrop-blur-xl bg-white/10 border border-white/20 rounded-4xl hover:scale-[1.03] transition-all duration-500 cursor-pointer group relative overflow-hidden"
+          data-metric="performance"
+        >
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-red-500/20 opacity-0 group-hover:opacity-100 transition-opacity"
+          ></div>
+          <div class="relative z-10">
+            <div class="flex items-center justify-between mb-6">
+              <div
+                class="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-3xl flex items-center justify-center shadow-2xl group-hover:spin"
+              >
+                <i class="material-icons-round text-white text-2xl">speed</i>
+              </div>
+            </div>
+            <p
+              class="text-gray-300 font-medium text-lg mb-4 opacity-90 group-hover:text-orange-100 transition-colors"
+            >
+              Reactions/sec
+            </p>
+            <p
+              class="text-5xl font-black bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent"
+              data-target="performance"
+            >
+              12.4
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Advanced Charts & Controls -->
+      <section class="grid grid-cols-1 xl:grid-cols-2 gap-12 mb-16">
+        <!-- Real-time Reactions Chart -->
+        <div
+          class="glass-panel p-10 rounded-4xl backdrop-blur-xl bg-white/8 border border-white/15 shadow-2xl hover:shadow-3xl transition-all duration-500"
+        >
+          <div class="flex items-center justify-between mb-8">
+            <h2
+              class="text-2xl font-black bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent flex items-center"
+            >
+              <i class="material-icons-outlined mr-3 text-purple-400 text-3xl"
+                >trending_up</i
+              >
+              Live Reactions
+            </h2>
+            <div class="flex items-center space-x-4 text-sm text-gray-400">
+              <span>1h</span><span>6h</span><span>24h</span>
+            </div>
+          </div>
+          <canvas id="reactionsChart" class="w-full h-80"></canvas>
+        </div>
+
+        <!-- Chat Management -->
+        <div
+          class="glass-panel p-10 rounded-4xl backdrop-blur-xl bg-white/8 border border-white/15 shadow-2xl hover:shadow-3xl transition-all duration-500"
+        >
+          <h2
+            class="text-2xl font-black bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent mb-8 flex items-center"
+          >
+            <i class="material-icons-outlined mr-3 text-emerald-400 text-3xl"
+              >dashboard_customize</i
+            >
+            Active Chats
+          </h2>
+          <div
+            id="chatControls"
+            class="space-y-4 max-h-96 overflow-y-auto custom-scrollbar"
+          >
+            <!-- Dynamic chat list -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Top Emojis + Recent Activity -->
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <!-- Top Emojis -->
+        <div
+          class="glass-panel p-10 rounded-4xl backdrop-blur-xl bg-white/8 border border-white/15 shadow-2xl"
+        >
+          <h2
+            class="text-2xl font-black bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent mb-8"
+          >
+            🎯 Top Emojis
+            <span class="text-sm text-gray-400 font-normal">(24h)</span>
+          </h2>
+          <div
+            id="topEmojis"
+            class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-6"
+          >
+            <!-- Dynamic emojis -->
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div
+          class="glass-panel p-10 rounded-4xl backdrop-blur-xl bg-white/8 border border-white/15 shadow-2xl"
+        >
+          <h2
+            class="text-2xl font-black bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent mb-8"
+          >
+            📊 Recent Activity
+          </h2>
+          <div
+            id="recentActivity"
+            class="space-y-4 max-h-96 overflow-y-auto custom-scrollbar"
+          >
+            <!-- Live logs -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700;900&display=swap");
+
+      * {
+        font-family:
+          "Google Sans",
+          -apple-system,
+          sans-serif;
+      }
+
+      .glass-panel,
+      .glass-nav,
+      .stat-card {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(32px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+      }
+
+      .stat-card:hover {
+        transform: translateY(-12px) scale(1.02) !important;
+      }
+
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+      }
+
+      @keyframes spin-slow {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .animate-spin-slow {
+        animation: spin-slow 3s linear infinite;
+      }
+      .animate-pulse-soft {
+        animation: pulse 3s ease-in-out infinite;
+      }
+    </style>
+
+    <script src="app.js"></script>
+  </body>
+</html>
